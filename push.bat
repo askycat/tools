@@ -1,4 +1,5 @@
 git add -A
-git commit -m 'add new'
+
+git commit -m  “asd”
 
 git push 
