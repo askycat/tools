@@ -1,5 +1,5 @@
 git add -A
 
-git commit -m  ¡°asd¡±
+git commit -m  ¡°addfile¡±
 
 git push 
