@@ -1,0 +1,204 @@
+//获取交易	gettransaction txid
+gettransaction 5b2958f3c42b2fa1187327603c499eb61d2e0d7ffa4a499f9d895849c51c2fcf
+
+{
+  "amount": 0.00000000,
+  "fee": -0.00000113,
+  "confirmations": 46,
+  "blockhash": "00000000000008b60b26acab09b7f35c5d132a9eb1649a674d460daeb59ccfe0",
+  "blockheight": 1769659,
+  "blockindex": 39,
+  "blocktime": 1591933928,
+  "txid": "5b2958f3c42b2fa1187327603c499eb61d2e0d7ffa4a499f9d895849c51c2fcf",
+  "walletconflicts": [
+  ],
+  "time": 1591933895,
+  "timereceived": 1591933895,
+  "bip125-replaceable": "no",
+  "details": [
+    {
+      "address": "mwpsMwTkeP3UF7KtHF68NFGqZkaT6gsvPG",
+      "category": "send",
+      "amount": -0.01395527,
+      "label": "p1",
+      "vout": 0,
+      "fee": -0.00000113,
+      "abandoned": false
+    },
+    {
+      "address": "mwpsMwTkeP3UF7KtHF68NFGqZkaT6gsvPG",
+      "category": "receive",
+      "amount": 0.01395527,
+      "label": "p1",
+      "vout": 0
+    }
+  ],
+  "hex": "02000000000101dde39b4bcd78df8ddf910c636f442531238c2519a871ad7f467098b8393289040000000000fdffffff01474b1500000000001976a914b2e561c9ff7eac99c3ba8dee274c214a9ead127a88ac02473044022000cb90da0a348bbda53ab922dd840c99af2846a908823d2dcdac9206363a18e102204c7140e8922523c74543cdfe6303e07c65ce296a47ca0404ac5d438ba99ec99b012102b2c2d811d8d3429969b9ff5f8f3b02c9b564bb277939ffba0092ea80df61de7cba001b00"
+}
+
+
+
+//解码交易	decoderawtransaction hex
+decoderawtransaction 02000000000101dde39b4bcd78df8ddf910c636f442531238c2519a871ad7f467098b8393289040000000000fdffffff01474b1500000000001976a914b2e561c9ff7eac99c3ba8dee274c214a9ead127a88ac02473044022000cb90da0a348bbda53ab922dd840c99af2846a908823d2dcdac9206363a18e102204c7140e8922523c74543cdfe6303e07c65ce296a47ca0404ac5d438ba99ec99b012102b2c2d811d8d3429969b9ff5f8f3b02c9b564bb277939ffba0092ea80df61de7cba001b00
+
+{
+  "txid": "5b2958f3c42b2fa1187327603c499eb61d2e0d7ffa4a499f9d895849c51c2fcf",
+  "hash": "f44df355c72e09f5a234d9e7a434c5c1cff21d2894b1bdca9d25714daf296bff",
+  "version": 2,
+  "size": 194,
+  "vsize": 113,
+  "weight": 449,
+  "locktime": 1769658,
+  "vin": [
+    {
+      "txid": "04893239b89870467fad71a819258c233125446f630c91df8ddf78cd4b9be3dd",
+      "vout": 0,
+      "scriptSig": {
+        "asm": "",
+        "hex": ""
+      },
+      "txinwitness": [
+        "3044022000cb90da0a348bbda53ab922dd840c99af2846a908823d2dcdac9206363a18e102204c7140e8922523c74543cdfe6303e07c65ce296a47ca0404ac5d438ba99ec99b01",
+        "02b2c2d811d8d3429969b9ff5f8f3b02c9b564bb277939ffba0092ea80df61de7c"
+      ],
+      "sequence": 4294967293
+    }
+  ],
+  "vout": [
+    {
+      "value": 0.01395527,
+      "n": 0,
+      "scriptPubKey": {
+        "asm": "OP_DUP OP_HASH160 b2e561c9ff7eac99c3ba8dee274c214a9ead127a OP_EQUALVERIFY OP_CHECKSIG",
+        "hex": "76a914b2e561c9ff7eac99c3ba8dee274c214a9ead127a88ac",
+        "reqSigs": 1,
+        "type": "pubkeyhash",
+        "addresses": [
+          "mwpsMwTkeP3UF7KtHF68NFGqZkaT6gsvPG"
+        ]
+      }
+    }
+  ]
+}
+
+
+
+//查询可花费btc	listunspent
+listunspent
+[
+  {
+    "txid": "5b2958f3c42b2fa1187327603c499eb61d2e0d7ffa4a499f9d895849c51c2fcf",
+    "vout": 0,
+    "address": "mwpsMwTkeP3UF7KtHF68NFGqZkaT6gsvPG",
+    "label": "p1",
+    "scriptPubKey": "76a914b2e561c9ff7eac99c3ba8dee274c214a9ead127a88ac",
+    "amount": 0.01395527,
+    "confirmations": 61,
+    "spendable": true,
+    "solvable": true,
+    "desc": "pkh([b2e561c9]0299ab8c6bea49ce91ceee0a157c5cd7ab1cd037fdf763e0bf8bd0558776ae3232)#rrry634v",
+    "safe": true
+  }
+]
+
+
+
+//创建交易	createrawtransaction "[{\"txid\":\"myid\",\"vout\":0}]" "[{\"address\":0.01}]"
+createrawtransaction "[{\"txid\":\"5b2958f3c42b2fa1187327603c499eb61d2e0d7ffa4a499f9d895849c51c2fcf\",\"vout\":0}]" "[{\"n2Q5CywR6itqyHXDXeTf5p78KYC1D3YdP9\":1.01}]"
+
+hex
+0200000001cf2f1cc54958899d9f494afa7f0d2e1db69e493c60277318a12f2bc4f358295b0000000000ffffffff0140230506000000001976a914e50d8002b70938b69d49401ae91d3b9b0d8c658788ac00000000
+decoderawtransaction 0200000001cf2f1cc54958899d9f494afa7f0d2e1db69e493c60277318a12f2bc4f358295b0000000000ffffffff0140230506000000001976a914e50d8002b70938b69d49401ae91d3b9b0d8c658788ac00000000
+{
+  "txid": "15c6525cadcf8edd4f2821d01cb6abd5cf2e4c4c53fbb66916c6640f9fa27ca2",
+  "hash": "15c6525cadcf8edd4f2821d01cb6abd5cf2e4c4c53fbb66916c6640f9fa27ca2",
+  "version": 2,
+  "size": 85,
+  "vsize": 85,
+  "weight": 340,
+  "locktime": 0,
+  "vin": [
+    {
+      "txid": "5b2958f3c42b2fa1187327603c499eb61d2e0d7ffa4a499f9d895849c51c2fcf",
+      "vout": 0,
+      "scriptSig": {
+        "asm": "",
+        "hex": ""
+      },
+      "sequence": 4294967295
+    }
+  ],
+  "vout": [
+    {
+      "value": 1.01000000,
+      "n": 0,
+      "scriptPubKey": {
+        "asm": "OP_DUP OP_HASH160 e50d8002b70938b69d49401ae91d3b9b0d8c6587 OP_EQUALVERIFY OP_CHECKSIG",
+        "hex": "76a914e50d8002b70938b69d49401ae91d3b9b0d8c658788ac",
+        "reqSigs": 1,
+        "type": "pubkeyhash",
+        "addresses": [
+          "n2Q5CywR6itqyHXDXeTf5p78KYC1D3YdP9"
+        ]
+      }
+    }
+  ]
+}
+
+
+//签名	signrawtransactionwithkey "myhex" "[\"key1\",\"key2\"]"
+signrawtransactionwithkey 0200000001cf2f1cc54958899d9f494afa7f0d2e1db69e493c60277318a12f2bc4f358295b0000000000ffffffff0140230506000000001976a914e50d8002b70938b69d49401ae91d3b9b0d8c658788ac00000000 "[\"cTVexsEZzdqJbeq3McywKDtWf2ye1fU9xNu8C1CAzEHT5MapCv8k\"]"
+{
+  "hex": "0200000001cf2f1cc54958899d9f494afa7f0d2e1db69e493c60277318a12f2bc4f358295b000000006a473044022051ac1b8b81ac6cbca64c3a2e589f7dfd45e014a93283eb489e082dcf9b8ca98002206c38f9673a0673ed9607e1b82da2e129aa03e432abe93ca92929ba4f07f905dc01210299ab8c6bea49ce91ceee0a157c5cd7ab1cd037fdf763e0bf8bd0558776ae3232ffffffff0140230506000000001976a914e50d8002b70938b69d49401ae91d3b9b0d8c658788ac00000000",
+  "complete": true
+}
+decoderawtransaction 0200000001cf2f1cc54958899d9f494afa7f0d2e1db69e493c60277318a12f2bc4f358295b000000006a473044022051ac1b8b81ac6cbca64c3a2e589f7dfd45e014a93283eb489e082dcf9b8ca98002206c38f9673a0673ed9607e1b82da2e129aa03e432abe93ca92929ba4f07f905dc01210299ab8c6bea49ce91ceee0a157c5cd7ab1cd037fdf763e0bf8bd0558776ae3232ffffffff0140230506000000001976a914e50d8002b70938b69d49401ae91d3b9b0d8c658788ac00000000
+{
+  "txid": "2a9d7bd6431e6186789798b2a46d3bcbaf94ba1b306c2e8182331bff0ee0bd20",
+  "hash": "2a9d7bd6431e6186789798b2a46d3bcbaf94ba1b306c2e8182331bff0ee0bd20",
+  "version": 2,
+  "size": 191,
+  "vsize": 191,
+  "weight": 764,
+  "locktime": 0,
+  "vin": [
+    {
+      "txid": "5b2958f3c42b2fa1187327603c499eb61d2e0d7ffa4a499f9d895849c51c2fcf",
+      "vout": 0,
+      "scriptSig": {
+        "asm": "3044022051ac1b8b81ac6cbca64c3a2e589f7dfd45e014a93283eb489e082dcf9b8ca98002206c38f9673a0673ed9607e1b82da2e129aa03e432abe93ca92929ba4f07f905dc[ALL] 0299ab8c6bea49ce91ceee0a157c5cd7ab1cd037fdf763e0bf8bd0558776ae3232",
+        "hex": "473044022051ac1b8b81ac6cbca64c3a2e589f7dfd45e014a93283eb489e082dcf9b8ca98002206c38f9673a0673ed9607e1b82da2e129aa03e432abe93ca92929ba4f07f905dc01210299ab8c6bea49ce91ceee0a157c5cd7ab1cd037fdf763e0bf8bd0558776ae3232"
+      },
+      "sequence": 4294967295
+    }
+  ],
+  "vout": [
+    {
+      "value": 1.01000000,
+      "n": 0,
+      "scriptPubKey": {
+        "asm": "OP_DUP OP_HASH160 e50d8002b70938b69d49401ae91d3b9b0d8c6587 OP_EQUALVERIFY OP_CHECKSIG",
+        "hex": "76a914e50d8002b70938b69d49401ae91d3b9b0d8c658788ac",
+        "reqSigs": 1,
+        "type": "pubkeyhash",
+        "addresses": [
+          "n2Q5CywR6itqyHXDXeTf5p78KYC1D3YdP9"
+        ]
+      }
+    }
+  ]
+}
+
+
+
+//广播交易sendrawtransaction "signedhex"
+sendrawtransaction 0200000001cf2f1cc54958899d9f494afa7f0d2e1db69e493c60277318a12f2bc4f358295b000000006a473044022051ac1b8b81ac6cbca64c3a2e589f7dfd45e014a93283eb489e082dcf9b8ca98002206c38f9673a0673ed9607e1b82da2e129aa03e432abe93ca92929ba4f07f905dc01210299ab8c6bea49ce91ceee0a157c5cd7ab1cd037fdf763e0bf8bd0558776ae3232ffffffff0140230506000000001976a914e50d8002b70938b69d49401ae91d3b9b0d8c658788ac00000000
+
+bad-txns-in-belowout, value in (0.01395527) < value out (1.01) (code -26)
+
+
+
+
+
+
+
