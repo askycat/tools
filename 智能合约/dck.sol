@@ -2,8 +2,6 @@
   
    #BEE
    
-   名字 丑小鸭 ugly duckling token（dck）  数量1000亿亿 （16位数字） 比例。对每笔交易征收 10%的税： 5%被锁定为流动资金3%永久销毁 2 %被分配给dck 持有人
-  
    #DCK features:
    5% fee auto add to the liquidity pool to locked forever when selling
    3% fee auto burn
@@ -83,7 +81,6 @@ interface IERC20 {
      * a call to {approve}. `value` is the new allowance.
      */
     event Approval(address indexed owner, address indexed spender, uint256 value);
-    event Burn(address indexed from, uint256 value);
 }
 
 
@@ -709,20 +706,18 @@ contract DCK is Context, IERC20, Ownable {
     address[] private _excluded;
    
     uint256 private constant MAX = ~uint256(0);
-    uint256 private _tTotal = 1000 * 10**16 * 10**9;
+    uint256 private _tTotal = 10**15 * 10**9;
     uint256 private _rTotal = (MAX - (MAX % _tTotal));
     uint256 private _tFeeTotal;
 
-    string private _name = "ugly duckling token";
+    string private _name = "Ugly Duckling Token";
     string private _symbol = "DCK";
     uint8 private _decimals = 9;
     
     uint256 public _taxFee = 2;
     uint256 private _previousTaxFee = _taxFee;
     
-    uint256 public _burnFee = 3;
-    
-    uint256 public _liquidityFee = 5;
+    uint256 public _liquidityFee = 8;
     uint256 private _previousLiquidityFee = _liquidityFee;
 
     IUniswapV2Router02 public immutable uniswapV2Router;
@@ -731,8 +726,8 @@ contract DCK is Context, IERC20, Ownable {
     bool inSwapAndLiquify;
     bool public swapAndLiquifyEnabled = true;
     
-    uint256 public _maxTxAmount = 500 * 10**16 * 10**9;
-    uint256 private numTokensSellToAddToLiquidity = 500 * 10**16 * 10**9;
+    uint256 public _maxTxAmount = 5 * 10**14 * 10**9;
+    uint256 private numTokensSellToAddToLiquidity = 5 * 10**14 * 10**9;
     
     event MinTokensBeforeSwapUpdated(uint256 minTokensBeforeSwap);
     event SwapAndLiquifyEnabledUpdated(bool enabled);
@@ -960,12 +955,6 @@ contract DCK is Context, IERC20, Ownable {
             10**2
         );
     }
-    
-    function calculateBurnFee(uint256 _amount) private view returns (uint256) {
-        return _amount.mul(_burnFee).div(
-            10**2
-        );
-    }
 
     function calculateLiquidityFee(uint256 _amount) private view returns (uint256) {
         return _amount.mul(_liquidityFee).div(
@@ -1124,8 +1113,6 @@ contract DCK is Context, IERC20, Ownable {
     }
 
     function _transferStandard(address sender, address recipient, uint256 tAmount) private {
-        uint256 burnAmount=calculateBurnFee(tAmount);
-        tAmount=tAmount.sub(burnAmount);
         (uint256 rAmount, uint256 rTransferAmount, uint256 rFee, uint256 tTransferAmount, uint256 tFee, uint256 tLiquidity) = _getValues(tAmount);
         _rOwned[sender] = _rOwned[sender].sub(rAmount);
         _rOwned[recipient] = _rOwned[recipient].add(rTransferAmount);
@@ -1133,13 +1120,9 @@ contract DCK is Context, IERC20, Ownable {
         _takeLiquidity(tLiquidity);
         _reflectFee(rFee, tFee);
         emit Transfer(sender, recipient, tTransferAmount);
-        emit Burn(sender,burnAmount);
     }
 
     function _transferToExcluded(address sender, address recipient, uint256 tAmount) private {
-        uint256 burnAmount=calculateBurnFee(tAmount);
-        tAmount=tAmount.sub(burnAmount);
-        
         (uint256 rAmount, uint256 rTransferAmount, uint256 rFee, uint256 tTransferAmount, uint256 tFee, uint256 tLiquidity) = _getValues(tAmount);
         _rOwned[sender] = _rOwned[sender].sub(rAmount);
         _tOwned[recipient] = _tOwned[recipient].add(tTransferAmount);
@@ -1148,13 +1131,9 @@ contract DCK is Context, IERC20, Ownable {
         _takeLiquidity(tLiquidity);
         _reflectFee(rFee, tFee);
         emit Transfer(sender, recipient, tTransferAmount);
-        emit Burn(sender,burnAmount);
     }
 
     function _transferFromExcluded(address sender, address recipient, uint256 tAmount) private {
-        uint256 burnAmount=calculateBurnFee(tAmount);
-        tAmount=tAmount.sub(burnAmount);
-        
         (uint256 rAmount, uint256 rTransferAmount, uint256 rFee, uint256 tTransferAmount, uint256 tFee, uint256 tLiquidity) = _getValues(tAmount);
         _tOwned[sender] = _tOwned[sender].sub(tAmount);
         _rOwned[sender] = _rOwned[sender].sub(rAmount);
@@ -1162,13 +1141,9 @@ contract DCK is Context, IERC20, Ownable {
         _takeLiquidity(tLiquidity);
         _reflectFee(rFee, tFee);
         emit Transfer(sender, recipient, tTransferAmount);
-        emit Burn(sender,burnAmount);
     }
     
     function _transferBothExcluded(address sender, address recipient, uint256 tAmount) private {
-        uint256 burnAmount=calculateBurnFee(tAmount);
-        tAmount=tAmount.sub(burnAmount);
-        
         (uint256 rAmount, uint256 rTransferAmount, uint256 rFee, uint256 tTransferAmount, uint256 tFee, uint256 tLiquidity) = _getValues(tAmount);
         _tOwned[sender] = _tOwned[sender].sub(tAmount);
         _rOwned[sender] = _rOwned[sender].sub(rAmount);
@@ -1177,6 +1152,5 @@ contract DCK is Context, IERC20, Ownable {
         _takeLiquidity(tLiquidity);
         _reflectFee(rFee, tFee);
         emit Transfer(sender, recipient, tTransferAmount);
-        emit Burn(sender,burnAmount);
     }
 }
