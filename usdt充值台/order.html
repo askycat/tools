@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>充币</title>
+  <script type="text/javascript" src="js/jquery.min.js"></script>
+  <script type="text/javascript" src="js/qrcode.min.js"></script>
+  <script type="text/javascript" src="js/clipboard.min.js"></script>
+  <style>
+    li {
+      margin-bottom: 5px
+    }
+  </style>
+  <script type="text/javascript">
+
+	var Timeout, interval;
+    $(document).ready(function () {
+		$("#address").text("THw8JnUx6wDaufgAEugyWXK3LFQdCygnxA");
+				var qrcode = new QRCode("qrcode", {
+					text: "THw8JnUx6wDaufgAEugyWXK3LFQdCygnxA",
+					width: 168,
+					height: 168,
+					colorDark: "#000000",
+					colorLight: "#ffffff",
+					correctLevel: QRCode.CorrectLevel.H
+				});
+		$("#box").height(window.innerHeight - 60)
+		var clipboard = new ClipboardJS("#copy")
+		clipboard.on('success', function(e) {
+			alert('地址复制成功，请尽快充值！');
+			e.clearSelection();
+		});
+		clipboard.on('error', function(e) {
+			alert('地址复制失败！');
+		});
+		var url = '/order' + window.location.search
+		if(window.location.search.length<4) return;
+		$.get(url, function (res) {
+			if (res.code == 0) {
+				$("#address").text(res.data.to);
+				$("#copy").attr("data-clipboard-text",res.data.to);
+				var qrcode = new QRCode("qrcode", {
+					text: res.data.to,
+					width: 168,
+					height: 168,
+					colorDark: "#000000",
+					colorLight: "#ffffff",
+					correctLevel: QRCode.CorrectLevel.H
+				});
+				$("#tradeNo").text(res.data.tradeNo);
+				$("#amount").text(res.data.value);
+				if(res.data.statusName == "Timeout"){
+					document.querySelector("#time").innerHTML = "";
+					document.querySelector("#status").innerHTML = "<font color='orange'>已超时</font>";
+					return;
+				}
+				if (res.data.statusName == 'Success'){
+					document.querySelector("#status").innerHTML="<font color='green'>已支付</font>";
+					document.querySelector("#time").innerHTML="";
+					clearInterval(interval);//停止
+					clearTimeout(Timeout);
+					return;
+				}
+				countDown();
+				orderstatus();
+				interval = setInterval(orderstatus, 5000);
+				function addZero(i) {
+					return i < 10 ? "0" + i: i + "";
+				}
+				function countDown() {
+					var nowtime = new Date();
+					var endtime = new Date(res.data.createTime);
+					var lefttime = parseInt((endtime.getTime() - nowtime.getTime()) / 1000)+1800;
+					if (lefttime <= 0) {
+						document.querySelector("#time").innerHTML = "已超时";
+						return;
+					}
+					var d = parseInt(lefttime / (24*60*60))
+					var h = parseInt(lefttime / (60 * 60) % 24);
+					var m = parseInt(lefttime / 60 % 60);
+					var s = parseInt(lefttime % 60);
+					d = addZero(d)
+					h = addZero(h);
+					m = addZero(m);
+					s = addZero(s);
+					document.querySelector("#time").innerHTML = `订单过期剩余时间:<br>${h} 时 ${m} 分 ${s} 秒`;
+					Timeout = setTimeout(countDown, 1000);
+				}
+			}else{
+				document.querySelector("#box").innerHTML = "<P>订单不存在</p>";
+			}
+		})
+	
+		function orderstatus(){
+			var getting = {
+				url:'/order' + window.location.search,
+				dataType:'json',
+				success:function(res) {
+					if (res.data.statusName == 'Success'){
+						document.querySelector("#time").innerHTML = "";
+						document.querySelector("#status").innerHTML = "<font color='green'>已支付</font>";
+						clearInterval(interval);//停止
+						clearTimeout(Timeout);
+						return;
+					}
+					if(res.data.statusName == "Timeout"){
+						document.querySelector("#time").innerHTML = "";
+						document.querySelector("#status").innerHTML = "<font color='orange'>已超时</font>";
+						return;
+					}
+				}
+			};
+			$.ajax(getting)
+		} //定时任务
+
+    });
+	
+  </script>
+</head>
+
+<body style="margin: 0;background: #1f2335;">
+  <header style="color: white;height:40px;">
+    <div style="text-align: center;margin-top:20px;">USDT充币</div>
+  </header>
+
+  <div id="box" style="text-align:center;border-radius: 10px 10px 0 0;background:white;font-size: 0.7rem;color:grey">
+    <div style="padding:10px">
+      <div id="qrcode" style="margin:0 auto;width:168px;height:168px;"></div>
+    </div>
+    <div style="background: #f3f3f1;padding: 10px 10px;margin:0 10px">
+      <span style="color: #a29595;">充币地址</span>
+		<div>
+			<span id="address" style="font-size: .8rem;color: black;word-break: break-all"></span>
+			<img id="copy" data-clipboard-text="" src="images/copy.png" width="15px" />
+		</div>
+    </div>
+    <div>
+      <ul style="padding:0 10px;list-style:none;font-size:14px;">
+	    <li>1. 请使用钱包扫码或者复制地址充值。推荐使用：XX钱包</li>
+        <li>2. 请使用USDT进行充值，<span style="color: red;font-weight: bold;}">否则无法到账</span></li>
+        <li>3. 充值金额必须和订单金额一致，<span style="color: red;font-weight: bold;}">否则无法到账</span></li>
+        <li>4. 充值后请耐心等待，最快几分钟到账，没有到账请联系客服。</li>
+      </ul>
+      <ul style="padding:0 10px;list-style:none;font-size:18px;">
+        <li>订单号：<span id="tradeNo"> </span></li>
+        <li>订单金额：<span id="amount"></span> USDT</li>
+        <li>支付状态：<span id="status">支付中</span></li>
+      </ul>
+    </div>
+    <div id="time" style="color:red;font-size:1.2rem;padding-top: 20px">
+    </div>
+  </div>
+</body>
+
+</html>
