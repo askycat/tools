@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<script src="js/rem.js"></script>
+		<script src="js/jquery-3.3.1.min.js"></script>
+		<script src="js/qrcode.min.js"></script>
+		<script src="js/html2canvas.min.js"></script>
+
+	</head>
+	<style>
+		body {
+			height: 100%;
+			position: relative;
+		}
+		
+		@font-face {
+			font-family: myFirstFont;
+			src: url('./font/NIRMALA.TTF')/* IE9+ */
+			;
+		}
+		
+		@font-face {
+			font-family: weiruanyahei;
+			src: url('./font/msyh.ttf')/* IE9+ */
+			;
+		}
+		
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		
+		input,
+		button {
+			font-family: myFirstFont;
+			width: 90%;
+			height: 1rem;
+			display: block;
+			background: #f9f9f9;
+			border-radius: 5px;
+			margin: 0 auto .5rem;
+			box-shadow: none;
+			outline: none;
+			border: none;
+			padding-left: .4rem;
+			box-sizing: border-box;
+			font-size: .32rem;
+		}
+		
+		#input {
+			padding: 1rem 0 0;
+		}
+		
+		#input button {
+			padding-left: 0;
+			margin-top: 1.5rem;
+			width: 90%;
+			display: flex;
+			align-items: center;
+			justify-content: space-around;
+			font-size: 0.32rem;
+			background: #0a8de7;
+			height: 1rem;
+			color: #fff;
+			font-family: 'weiruanyahei';
+			border-radius: 5px;
+		}
+		
+		.con {
+			display: none;
+			width: 100%;
+			height: 11.47rem;
+			position: relative;
+		}
+		
+		.con {
+			background: url(img/result-bg.png) no-repeat;
+			background-size: 100% 100%;
+		}
+		
+		#qrcode {
+			width: 4.05rem;
+			height: 4.05rem;
+			position: absolute;
+			top: 2.78rem;
+			left: 0;
+			right: 0;
+			margin: auto;
+		}
+		.title {
+			top: 500px;
+			font-size: .32rem;
+			font-weight: 600;
+			position: absolute;
+			top: 0.9rem;
+			left: 0;
+			right: 0;
+			margin: auto;
+			width: 2rem;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+		
+		h2 {
+			margin-right: .15rem;
+			font-size: .32rem;
+			font-weight: 600;
+			font-family: myFirstFont;
+		}
+		
+		.title span {
+			font-size: .32rem;
+			font-weight: 549;
+			font-family: 'weiruanyahei';
+		}
+		
+		.desc {
+			font-weight: 549;
+			font-size: .29rem;
+			top: 1.49rem;
+			left: 4.45rem;
+			position: absolute;
+			color: #d3d6d9;
+		}
+		
+		.address {
+			font-size: .33rem;
+			top: 8.05rem;
+			left: 0;
+			position: absolute;
+			right: 0;
+			margin: auto;
+			padding: 0 0.8rem;
+			text-align: center;
+			word-break: break-all;
+			font-weight: 500;
+			line-height: .4rem;
+		}
+	</style>
+
+	<body>
+		<div id="input">
+			<input type="text" id="name" placeholder="请输入收款名称" />
+			<input type="text" id="text" placeholder="请输入二维码地址" />
+			<input type="text" id="address" placeholder="请输入钱包地址" />
+			<button>一键生成</button>
+		</div>
+		<div class="con">
+			<div class="title">
+				<h2></h2><span>收款</span></div>
+			<p class="desc"></p>
+			<div id="qrcode"></div>
+			<div class="address"></div>
+		</div>
+
+		<script>
+			$(() => {
+				$('button').click(() => {
+					const name = $('#name').val()
+					const texts = $('#text').val()
+					const address = $('#address').val()
+					$('#input').hide()
+					$('.con').show()
+					var qrcode = new QRCode(document.getElementById("qrcode"),{
+						width:$('body').width() * 0.54,
+						height:$('body').width() * 0.54,
+					});
+					
+					qrcode.makeCode(texts);
+					$('.title h2,.desc').text(name)
+					$('.address').text(address)
+					//htmlCanvas() 合成图片，有兼容性
+
+				})
+
+				function htmlCanvas() {
+					setTimeout(() => {
+						html2canvas(document.querySelector(".con")).then(canvas => {
+							console.log('绘图开始');
+							var imgUri = canvas.toDataURL();
+							$(".con").html('<img src="' + imgUri + '" alt="" style="width: 100%;height:11.47rem"/>');
+							console.log('绘图结束');
+						})
+					}, 1000)
+				}
+			})
+		</script>
+	</body>
+
+</html>
