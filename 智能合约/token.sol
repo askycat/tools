@@ -1,3 +1,4 @@
+
 pragma solidity ^0.5.0;
 
 /*
@@ -287,7 +288,7 @@ library SafeMath {
  * allowances. See {IERC20-approve}.
  * Refer from https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC20/ERC20.sol
  */
-contract PER is Context, IERC20 {
+contract DOD is Context, IERC20 {
     using SafeMath for uint256;
     string private _name;
     string private _symbol;
@@ -300,8 +301,8 @@ contract PER is Context, IERC20 {
     uint256 private _totalSupply;
     
      constructor() public {
-    _name = "PER";
-    _symbol = "PER";
+    _name = "DOD";
+    _symbol = "DOD";
     _decimals = 18;
     _totalSupply = 100000000e18;
     _balances[msg.sender] = _totalSupply;
